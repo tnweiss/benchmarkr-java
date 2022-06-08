@@ -33,7 +33,16 @@ public class Poms {
     }
   }
 
+  /**
+   * IF provided, return the pom version for the project.
+   *
+   * @return the project version
+   */
   public static String pomVersion() {
-    return pomVersion(POM);
+    try {
+      return pomVersion(POM);
+    } catch (Exception ex) {
+      return "NK";
+    }
   }
 }

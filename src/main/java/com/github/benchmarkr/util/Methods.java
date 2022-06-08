@@ -177,4 +177,8 @@ public class Methods {
     }
   }
 
+  public static Predicate<Method> withName(String name) {
+    return m -> name == null || name.isBlank() || name.equals(m.getName());
+  }
+
 }
