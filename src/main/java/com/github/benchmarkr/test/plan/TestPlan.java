@@ -63,6 +63,7 @@ public class TestPlan {
         .filter(Classes.withClassname(testPlanParameters.getClassName()))
         .filter(Classes.withMethod(testPlanParameters.getMethodName()))
         .flatMap(Classes.methodsHavingAnnotation(Benchmark.class))
+        .filter(Methods.withName(testPlanParameters.getMethodName()))
         .collect(Collectors.groupingBy(Method::getDeclaringClass, Collectors.toList()))
         .entrySet()
         .stream()
