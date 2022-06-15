@@ -27,6 +27,12 @@ And then our table, gave us some insight into individual results that could then
 
 ## Related Benchmarkr Projects
 
+- [Benchmarkr](https://github.com/tnweiss/Benchmarkr-cpp) - 
+  Includes source code for the benchmarkr executable and c++ dev libraries
+- [Benchmarkr Maven Plugin](https://github.com/tnweiss/benchmarkr-java-maven-plugin) -
+  Benchmarkr plugin for maven
+- [Benchmarkr Gradle Plugin](https://github.com/tnweiss/benchmarkr-java-gradle-plugin) -
+  Benchmarkr plugin for gradle
 - [Benchmarkr Jetbrains Plugin](https://github.com/tnweiss/benchmarkr-jetbrains-plugin) -
   Jetbrains plugin for Intellij and CLION that makes it easier to run individual tests from the gutter
 - [Benchmarkr Configuration](https://github.com/tnweiss/benchmarkr-configuration) -
@@ -64,12 +70,33 @@ shows the profile you may need to use.
         <pluginRepository>
             <id>benchmarkr-java-maven-plugin</id>
             <url>https://maven.pkg.github.com/tnweiss/benchmarkr-java-maven-plugin</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
         </pluginRepository>
       </pluginRepositories>
     </profile>
+```
+
+If you're using gradle...
+
+```groovy
+repositories {
+    // ...
+    maven {
+        name = "BenchmarkrJavaGithubPackages"
+        url = "https://maven.pkg.github.com/tnweiss/benchmarkr-java"
+        credentials {
+            username = System.getenv("GITHUB_USERNAME")
+            password = System.getenv("GITHUB_ACCESS_TOKEN")
+        }
+    }
+    maven {
+      name = "BenchmarkrJavaGradleGithubPackages"
+      url = "https://maven.pkg.github.com/tnweiss/benchmarkr-java-gradle-plugin"
+      credentials {
+        username = System.getenv("GITHUB_USERNAME")
+        password = System.getenv("GITHUB_ACCESS_TOKEN")
+      }
+    }
+}
 ```
 
 Include benchmarkr in your maven project by adding it as a test dependency ...
@@ -78,9 +105,17 @@ Include benchmarkr in your maven project by adding it as a test dependency ...
 <dependency>
       <groupId>com.github.benchmarkr</groupId>
       <artifactId>benchmarkr</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.2</version>
       <scope>test</scope>
 </dependency>
+```
+
+If you're using gradle ...
+
+```groovy
+dependencies {
+  testImplementation 'com.github.benchmarkr:benchmarkr:0.0.2'
+}
 ```
 
 This will give you access to annotations to mark benchmark tests, but you'll also need to add the benchmarkr plugin
@@ -90,7 +125,7 @@ to trigger the benchmarkr tests.
      <plugin>
         <groupId>com.github.benchmarkr</groupId>
         <artifactId>benchmarkr-maven-plugin</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.2</version>
         <executions>
           <execution>
             <id>benchmarkr</id>
@@ -100,6 +135,15 @@ to trigger the benchmarkr tests.
           </execution>
         </executions>
       </plugin>
+```
+
+If you're using gradle ...
+
+```groovy
+plugins {
+    id 'java'
+    id 'com.github.benchmarkr' version '0.0.2'
+}
 ```
 
 Below are some configuration options you can place in the `properties` section of your pom file.
@@ -113,6 +157,17 @@ Below are some configuration options you can place in the `properties` section o
 - `benchmarkr.config.record` Tells benchmarkr whether to write results to a file. Default is `true`
 - `benchmarkr.config.ignoreFailures` If true, the test phase will pass even if a test duration exceeds its upper bound. 
 Defaults to `false`
+
+If you're using gradle, run `./gradlew help --task benchmark` to get command line options. You'll also have access
+to task configuration in your build scripts.
+
+```groovy
+benchmark {
+    ignoreFailures = false
+    iterations = 10
+    // ...
+}
+```
 
 ### Annotations Summary
 
