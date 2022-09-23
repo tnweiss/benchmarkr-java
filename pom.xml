@@ -6,7 +6,7 @@
 
     <groupId>com.github.benchmarkr</groupId>
     <artifactId>benchmarkr</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.4</version>
 
     <name>benchmarkr</name>
     <url>https://github.com/tnweiss/benchmarkr-java</url>
