@@ -103,7 +103,7 @@ public class Methods {
           + " ) from method ( " + method + " ) cannot be cast to ( " + clazz + " ) ");
     } catch (Exception ex) {
       log.error("Unable to invoke {} in class {}", method, o.getClass().getName(), ex);
-      throw new IllegalStateException("Unable to invoke " + method, ex);
+      throw new IllegalStateException("Unable to invoke '%s' cause: %s".formatted(method, ex.getMessage()), ex);
     }
   }
 
@@ -115,7 +115,7 @@ public class Methods {
    * @return a predicate that filters methods with the provided annotation.
    */
   public static <T extends Annotation> Predicate<Method> annotatedWith(Class<T> annotation) {
-    return m -> m.getAnnotation(annotation) != null;
+    return m -> m.isAnnotationPresent(annotation);
   }
 
   /**
